@@ -16,9 +16,9 @@ M.config = function()
     defaults = {
       layout_strategy = "horizontal",
       layout_config = {
-        prompt_position = "top",
+        prompt_position = "bottom",
       },
-      sorting_strategy = "ascending",
+      sorting_strategy = "descending",
       dynamic_preview_title = true,
       vimgrep_arguments = {
         "rg",
@@ -29,8 +29,8 @@ M.config = function()
         "--column",
         "--smart-case",
         "--hidden",
-        -- "-g",
-        -- "'!.git/*'",
+        "-g",
+        "!.git/**",
       },
     },
   })

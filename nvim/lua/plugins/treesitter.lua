@@ -9,7 +9,10 @@ local M = {
         sync_install = false,
         auto_install = true,
         highlight = { enable = true },
-        indent = { enable = true },
+        indent = {
+          enable = true,
+          disable = { "python" },
+        },
       })
     end,
   },
@@ -27,6 +30,7 @@ local M = {
   -- },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("nvim-treesitter.configs").setup({
         select = {
@@ -59,6 +63,7 @@ local M = {
   },
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("nvim-treesitter.configs").setup({
         context_commentstring = { enable = true },

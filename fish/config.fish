@@ -1,14 +1,29 @@
-
 set -xg EDITOR nvim
-# set -Ux fish_user_paths
-# fish_add_path $GOPATH $GOPATH/bin
+set -Ux fish_user_paths
+fish_add_path /usr/local/sbin/
 
 # misc
-abbr rmr "rm -rf"
+abbr qs     "open -a Qspace\ Pro"
+abbr cat    "bat"
 abbr python "python3"
 abbr pip    "pip3"
-abbr lg "lazygit"
-abbr ra "ranger"
+abbr ra     "ranger"
+abbr h      "history"
+abbr p      "ps -f"
+abbr md     "mkdir -o"
+abbr rmr    "rm -rf"
+abbr grep   "grep --color"
+if command -sq lazygit
+  abbr lg "lazygit"
+end
+
+if command -sq ranger
+  abbr ra "ranger"
+end
+
+if command -sq bat
+  abbr ra "bat"
+end
 
 # vim
 alias vim="nvim"
@@ -38,14 +53,24 @@ abbr bwu "brew update"
 
 # git
 abbr g   "git"
+abbr ga  "git add"
 abbr gb  "git branch"
+abbr gd  "git diff -w"
 abbr gf  "git fetch"
 abbr gl  "git log"
-abbr ga  "git add --all"
 abbr gaa "git add --all"
 abbr gst "git status"
 abbr gcm "git commit -m"
-abbr gps "git push"
+abbr gcb "git checkout -b"
+abbr gps "git push origin"
 abbr gpl "git pull"
+
+# cd
+# alias for cd
+alias  ..="cd .."
+alias  ...="cd ../.."
+alias  ....="cd ../../.."
+alias  .....="cd ../../../.."
+
 
 starship init fish | source
