@@ -43,8 +43,14 @@ brew install --cask visual-studio-code
 brew install --cask foobar2000
 brew install --cask baidunetdisk
 brew install --cask adirve
-
 brew install --cask sourcetree
+brew install --cask wolai
+brew install --cask net
+brew install --cask tencent-lemon
+brew install --cask hyperswitch
+brew install --cask vnc-viewer
+brew isntall --cask raspberry-pi-imager
+brew install --cask arduino-ide
 
 
 brew install --cask font-hurmit-nerd-font
