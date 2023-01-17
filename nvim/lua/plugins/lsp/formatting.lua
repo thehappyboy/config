@@ -1,4 +1,5 @@
 local utils = require("utils")
+
 local M = {}
 
 M.autoformat = true
@@ -13,26 +14,35 @@ function M.toggle()
 end
 
 function M.format()
-  if M.autoformat then
-    vim.lsp.buf.format()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local ft = vim.bo[bufnr].filetype
+  local has_nls = #require("null-ls.sources").get_available(ft, "NULL_LS_FORMATTING") > 0
+
+  vim.lsp.buf.format(vim.tbl_deep_extend("force",{
+    bufnr = bufnr,
+    filter = function(client)
+      if has_nls then
+        return client.name == "null-ls"
+      end
+      return client.name ~= "null-ls"
+    end,
+  }, utils.opts("nvim-lspconfig").format or {}))
+end
+
+function M.on_attach(client, bufnr)
+  if client.supports_method("textDocument/formatting") then
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = vim.api.nvim_create_augroup("LspFormat." .. bufnr, {}),
+      buffer = buf,
+      callback = function()
+        if M.autoformat then
+          M.format()
+        end
+      end,
+    })
   end
 end
 
-function M.setup(client, buf)
-  local ft = vim.api.nvim_buf_get_option(buf, "filetype")
 
-  local sources = require("null-ls.sources")
-  local available = sources.get_available(ft, "NULL_LS_FORMATTING")
-
-  if available then
-    client.server_capabilities.documentFormattingProvider = true
-    vim.cmd([[
-      augroup LspFormat
-        autocmd! * <buffer>
-        autocmd BufWritePre <buffer> lua require("plugins.lsp.formatting").format()
-      augroup END
-    ]])
-  end
-end
 
 return M

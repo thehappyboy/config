@@ -27,6 +27,20 @@ local snippets = {
     ]]
   ),
   ls.parser.parse_snippet(
+    "def",
+    [[
+    def ${1:function_name} (${2:args}):
+        ${3:pass}
+    ]]
+  ),
+  ls.parser.parse_snippet(
+    "defm",
+    [[
+    def ${1:method_name} (self, ${2:args}):
+        ${3:pass}
+    ]]
+  ),
+  ls.parser.parse_snippet(
     "class",
     [[
     class ${1:classname}(${2:object}):
@@ -49,9 +63,7 @@ local snippets = {
   ),
   ls.parser.parse_snippet("raise", [[raise ${1:Value}Error('${2:msg}')]]),
   ls.parser.parse_snippet("from", [[from ${1:pkg} import ${2:module}]]),
-  -- ls.parser.parse_snippet("from", [[from ${1:pkg} import ${2:module} as ${3:alias}]]),
   ls.parser.parse_snippet("imp", [[import ${1:pkg}]]),
-  -- ls.parser.parse_snippet("imp", [[import ${1:pkg} as ${2:alias]]),
   ls.parser.parse_snippet(
     "doc",
     [[

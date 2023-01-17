@@ -1,24 +1,21 @@
-local M = {
+return {
   "nvim-telescope/telescope.nvim",
-  cmd = "Telescope",
   dependencies = {
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    "popup.nvim",
+    "plenary.nvim",
   },
-}
-
-M.config = function()
-  local telescope = require("telescope")
-
-  vim.keymap.set("n", "<c-f>", "<cmd>Telescope live_grep<cr>")
-  vim.keymap.set("n", "<c-p>", "<cmd>Telescope find_files<cr>")
-
-  telescope.setup({
+  cmd = "Telescope",
+  keys = {
+    { "<c-f>", "<cmd>Telescope live_grep<cr>" },
+    { "<c-p>", "<cmd>Telescope find_files<cr>" },
+  },
+  opts = {
     defaults = {
-      layout_strategy = "horizontal",
-      layout_config = {
-        prompt_position = "bottom",
-      },
-      sorting_strategy = "descending",
+      -- layout_strategy = "horizontal",
+      -- layout_config = {
+      --   prompt_position = "bottom",
+      -- },
+      -- sorting_strategy = "descending",
       dynamic_preview_title = true,
       vimgrep_arguments = {
         "rg",
@@ -33,9 +30,5 @@ M.config = function()
         "!.git/**",
       },
     },
-  })
-
-  telescope.load_extension("fzf")
-end
-
-return M
+  },
+}

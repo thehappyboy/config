@@ -1,8 +1,8 @@
 local M = {}
 
-local wk = require("which-key")
+function M.on_attach(client, bufnr)
+  local wk = require("which-key")
 
-M.setup = function(client, bufnr)
   local keymap = {
     buffer = bufnr,
     ["<leader>"] = {
@@ -26,7 +26,7 @@ M.setup = function(client, bufnr)
         },
       },
       z = {
-        d = { "<cmd>Telscope diagnostics<cr>", "search diagnostics" },
+        d = { "<cmd>Telescope diagnostics<cr>", "search diagnostics" },
       },
     },
     g = {

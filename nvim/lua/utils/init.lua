@@ -37,9 +37,39 @@ function M.get_python_path()
   if venv then
     return string.format("%s/bin/python", venv)
   else
-    return "/usr/bin/python3"
+    return "python3"
+  end
+end
+
+function M.on_attach(on_attach)
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local buffer = args.buf
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      on_attach(client, buffer)
+    end,
+  })
+end
+
+-- @param name string
+function M.opts(name)
+  local plugin = require("lazy.core.config").plugins[name]
+  if not plugin then
+    return {}
+  end
+  local Plugin = require("lazy.core.plugin")
+  return Plugin.values(plugin, "opts", false)
+end
+
+function M.if_has(plugin_name, callback, default)
+  local has, plugin = pcall(require, plugin_name)
+  if has then
+    return callback(plugin)
+  else
+    if default ~= nil then
+      return default()
+    end
   end
 end
 
 return M
-

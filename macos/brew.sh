@@ -1,38 +1,6 @@
 #!bin/bash
 
-# install git
-xcode-select install
 
-git config --global user.name thehappyboy
-git config --global user.email 27151400@qq.com
-git config --global http.proxy "http://127.0.0.1:10010"
-git config --global https.proxy "http://127.0.0.1:10010"
-
-# install homebrew
-if [[ ! -e /usr/local/bin/brew ]]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-  echo "You have installed brew"
-fi
-
-
-brew tap homebrew/cask-fonts
-
-brew install bat
-brew install fd
-brew install ripgrep
-brew install ranger
-brew install ripgrep
-brew install lazygit
-brew install starship
-brew install exa
-brew install wget
-brew install zoxide
-brew install neofetch
-brew install tmux
-brew install stow
-brew install arduino-cli
-brew install gnu-sed
 
 brew install --cask iina
 brew install --cask alacritty
@@ -45,11 +13,10 @@ brew install --cask baidunetdisk
 brew install --cask adirve
 brew install --cask sourcetree
 brew install --cask wolai
-brew install --cask net
 brew install --cask tencent-lemon
 brew install --cask hyperswitch
 brew install --cask vnc-viewer
-brew isntall --cask raspberry-pi-imager
+brew install --cask raspberry-pi-imager
 brew install --cask arduino-ide
 
 

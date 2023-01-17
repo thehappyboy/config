@@ -1,11 +1,8 @@
-local M = {
+return {
   "akinsho/nvim-bufferline.lua",
-  lazy = false,
-  -- event = "BufAdd",
-}
-
-M.config = function()
-  require("bufferline").setup({
+  -- lazy = false,
+  event = "VeryLazy",
+  opts = {
     options = {
       show_close_icon = true,
       show_tab_indicators = true,
@@ -32,7 +29,5 @@ M.config = function()
         },
       },
     },
-  })
-end
-
-return M
+  },
+}

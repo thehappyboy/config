@@ -14,11 +14,11 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup("plugins", {
   defaults = { lazy = true },
-  git = {timeout=120,},
+  git = { timeout = 120 },
   checker = { enabled = false },
   install = {
     missing = true,
-    colorscheme = { "tokyonight-moon", "gruvbox-material" },
+    colorscheme = { "gruvbox" },
   },
   performance = {
     cache = {

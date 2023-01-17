@@ -7,10 +7,9 @@ abbr qs     "open -a Qspace\ Pro"
 abbr cat    "bat"
 abbr python "python3"
 abbr pip    "pip3"
-abbr ra     "ranger"
 abbr h      "history"
 abbr p      "ps -f"
-abbr md     "mkdir -o"
+abbr md     "mkdir -p"
 abbr rmr    "rm -rf"
 abbr grep   "grep --color"
 if command -sq lazygit
@@ -22,7 +21,7 @@ if command -sq ranger
 end
 
 if command -sq bat
-  abbr ra "bat"
+  abbr cat "bat"
 end
 
 # vim

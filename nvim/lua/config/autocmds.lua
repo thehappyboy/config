@@ -1,14 +1,54 @@
+local set_winbar = function(winbar)
+  if vim.fn.has("nvim-0.8.0") ~= 1 then
+    return
+  end
+  if vim.fn.winheight(0) <= 1 then
+    return
+  end
+  local success, result = pcall(function()
+    vim.wo.winbar = winbar
+  end)
+end
+
+local active_win = function()
+  if vim.bo.buftype == "nofile" then
+    return
+  end
+  vim.wo.winhighlight = ""
+  set_winbar("%#LineNrAbove#%=%m %{getcwd()}/%#LineNr#%f %#MyBufNr#(%n)")
+end
+
+local non_active_win = function()
+  if vim.bo.buftype == "nofile" then
+    return
+  end
+  vim.wo.winhighlight = "LineNr:Comment"
+  set_winbar("%#LineNrAbove#%=%m %{getcwd()}/%f (%n)")
+end
+
+-- MyActiveWin = {
+--   -- TODO are all these needed?
+--   VimEnter = {callback = active_win},
+--   BufWinEnter = {callback = active_win},
+--   WinEnter = {callback = active_win},
+--   WinNew = {callback = active_win},
+--   WinLeave = {callback = non_active_win},
+--   TabNewEntered = {callback = active_win},
+-- },
+
+vim.api.nvim_create_augroup("_activewin", { clear = true })
+vim.api.nvim_create_autocmd({ "VimEnter", "BufWinEnter", "WinEnter", "WinNew", "TabNewEntered" }, {
+  callback = active_win,
+})
+vim.api.nvim_create_autocmd({ "WinLeave" }, {
+  callback = non_active_win,
+})
+
 vim.api.nvim_create_augroup("_misc", { clear = true })
 vim.api.nvim_create_autocmd("BufReadPost", {
   desc = "jump to last position when reopening a file",
   group = "_misc",
-  pattern = "*",
-  callback = function()
-    local last_pos = vim.fn.line("'\"")
-    if last_pos > 0 and last_pos <= vim.fn.line("$") then
-      vim.api.nvim_win_set_cursor(0, { last_pos, 0 })
-    end
-  end,
+  command = [[if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]],
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -16,7 +56,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = "_misc",
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank()
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150, on_visual = true })
   end,
 })
 
@@ -34,28 +74,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o",
 })
 
-local init_color_fg = vim.api.nvim_get_hl_by_name("CursorLineNr", true).foreground
-local init_color_bg = vim.api.nvim_get_hl_by_name("CursorLineNr", true).background
-
-vim.api.nvim_create_autocmd({ "ModeChanged", "InsertLeave" }, {
-  desc = "change cursor color on mode change",
-  group = "_misc",
-  callback = function()
-    local mode = vim.api.nvim_get_mode().mode
-    if mode == "i" then
-      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#000000", bg = "#ac3131", bold = true })
-    elseif mode == "v" or mode == "V" or mode == "" then
-      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#000000", bg = "#d1d1d1", bold = true })
-    else
-      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = init_color_fg, bg = init_color_bg, bold = true })
-    end
-  end,
-})
-
 vim.api.nvim_create_augroup("_ft", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
   group = "_ft",
-  pattern = { "man", "help", "lsp-installer", "null-ls-info", "startuptime", "qf", "lspinfo" },
+  pattern = { "dap-float", "man", "help", "lsp-installer", "null-ls-info", "startuptime", "qf", "lspinfo" },
   command = [[nnoremap <buffer><silent> q :close<cr>]],
 })
 

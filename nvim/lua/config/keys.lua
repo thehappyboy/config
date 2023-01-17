@@ -1,9 +1,22 @@
+local utils = require("utils")
+
+local function clear()
+  vim.cmd("nohlsearch")
+  vim.lsp.buf.clear_references()
+  utils.if_has("notify", function(notify)
+    notify.dismiss()
+  end)
+  utils.if_has("hlslens.main", function(hlslens)
+    hlslens.stop()
+  end)
+end
+
 local opts = { remap = false, silent = true }
 -- window naviagtion
-vim.keymap.set("n", "<c-up>", "<c-w>k", opts)
-vim.keymap.set("n", "<c-down>", "<c-w>j", opts)
-vim.keymap.set("n", "<c-left>", "<c-w>h", opts)
-vim.keymap.set("n", "<c-right>", "<c-w>l", opts)
+vim.keymap.set("n", "<c-k>", "<c-w>k", opts)
+vim.keymap.set("n", "<c-j>", "<c-w>j", opts)
+vim.keymap.set("n", "<c-h>", "<c-w>h", opts)
+vim.keymap.set("n", "<c-l>", "<c-w>l", opts)
 
 -- window resize
 vim.keymap.set("n", "<s-up>", "<cmd>resize +2<cr>", opts)
@@ -30,15 +43,15 @@ vim.keymap.set("n", "]b", ":bn<cr>", opts)
 vim.keymap.set("n", "[b", ":bp<cr>", opts)
 
 -- jump list
-vim.keymap.set("n", "]j", "<c-o>", opts)
-vim.keymap.set("n", "[j", "<c-i>", opts)
+vim.keymap.set("n", "]j", "<c-i>", opts)
+vim.keymap.set("n", "[j", "<c-o>", opts)
 
 -- page up/down
 vim.keymap.set("n", "]p", "<pagedown>", opts)
 vim.keymap.set("n", "[p", "<pageup>", opts)
 
 -- esc setting
-vim.keymap.set("n", "<esc>", ":nohl<cr>", opts)
+vim.keymap.set("n", "<esc>", clear, opts)
 -- vim.keymap.set("i", "<esc>", "", opts)
 vim.keymap.set("t", "<esc>", [[<c-\><c-n>]], opts)
 vim.keymap.set("t", "jk", [[<c-\><c-n>]], opts)
